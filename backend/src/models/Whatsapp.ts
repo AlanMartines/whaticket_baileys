@@ -129,38 +129,6 @@ class Whatsapp extends Model<Whatsapp> {
   @Default("")
   @Column(DataType.TEXT)
   expiresTicketNPS
-
-	@Default(null)
-  @Column(DataType.TEXT)
-  webhook_cli: string;
-
-	@Default(true)
-  @Column
-  wh_message: boolean;
-
-	@Default(true)
-  @Column
-  wh_qrcode: boolean;
-
-	@Default(true)
-  @Column
-  wh_connect: boolean;
-
-	@Default(true)
-  @Column
-  wh_status: boolean;
-
-	@Default(false)
-  @Column
-  sendmass: boolean;
-
-	@Default(null)
-  @Column(DataType.TEXT)
-  whatsNotify: string;
-
-	@Default(null)
-  @Column(DataType.TEXT)
-  userConn: string;
 }
 
 export default Whatsapp;

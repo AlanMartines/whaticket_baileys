@@ -48,9 +48,6 @@ class Company extends Model<Company> {
   @Column
   recurrence: string;
 
-	@Column
-  onlyAPI: boolean;
-
   @Column({
     type: DataType.JSONB
   })
