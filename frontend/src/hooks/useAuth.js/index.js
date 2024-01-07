@@ -132,8 +132,7 @@ const useAuth = () => {
         history.push("/tickets");
         setLoading(false);
       } else {
-        toastError(`Opss! Sua assinatura venceu ${vencimento}.
-Entre em contato com o Suporte para mais informações! `);
+        toastError(`Opss! Sua assinatura venceu ${vencimento}. Entre em contato com o Suporte para mais informações!`);
         setLoading(false);
       }
 
