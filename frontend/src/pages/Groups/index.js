@@ -118,7 +118,7 @@ const IconChannel = (channel) => {
     case "whatsapp":
       return <WhatsApp />;
     default:
-      return "error";
+      return "-----";
   }
 };
 
