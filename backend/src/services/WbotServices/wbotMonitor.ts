@@ -15,6 +15,7 @@ import Whatsapp from "../../models/Whatsapp";
 import { logger } from "../../utils/logger";
 import createOrUpdateBaileysService from "../BaileysServices/CreateOrUpdateBaileysService";
 import CreateMessageService from "../MessageServices/CreateMessageService";
+import { wh_connect } from "../../controllers/WebHookController";
 
 type Session = WASocket & {
   id?: number;
@@ -27,23 +28,19 @@ interface IContact {
 const wbotMonitor = async (
   wbot: Session,
   whatsapp: Whatsapp,
-  companyId: number
+  companyId: number | string
 ): Promise<void> => {
   try {
     wbot.ws.on("CB:call", async (node: BinaryNode) => {
       const content = node.content[0] as any;
 
-
-      if (content.tag === "terminate") {
+      if (content?.tag === "terminate") {
         const sendMsgCall = await Setting.findOne({
           where: { key: "call", companyId },
         });
 
-        if (sendMsgCall.value === "disabled") {
-          await wbot.sendMessage(node.attrs.from, {
-            text:
-              "*Mensagem Automática:*\n\nAs chamadas de voz e vídeo estão desabilitas para esse WhatsApp, favor enviar uma mensagem de texto. Obrigado",
-          });
+        if (sendMsgCall?.value === "disabled") {
+          await wbot.sendMessage(node.attrs.from, { text: "*Mensagem Automática:*\n\nAs chamadas de voz e vídeo estão desabilitas para esse WhatsApp, favor enviar uma mensagem de texto. Obrigado", });
 
           const number = node.attrs.from.replace(/\D/g, "");
 
