@@ -88,7 +88,6 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
           printQRInTerminal: false,
           auth: {
             creds: state.creds,
-						//@ts-ignore
             keys: makeCacheableSignalKeyStore(state.keys, logger),
           },
           version,
