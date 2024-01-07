@@ -122,7 +122,7 @@ const IconChannel = (channel) => {
   }
 };
 
-const Connections = () => {
+const Groups = () => {
   const classes = useStyles();
 
   const { whatsApps, loading } = useContext(WhatsAppsContext);
@@ -535,4 +535,4 @@ const Connections = () => {
   );
 };
 
-export default Connections;
+export default Groups;

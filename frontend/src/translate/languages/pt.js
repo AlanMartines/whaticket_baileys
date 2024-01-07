@@ -362,6 +362,7 @@ const messages = {
 					financeiro: "Financeiro",
 					createaccount: "Criação de usuário",
 					companies: "Empresas",
+					groups: "Grupos",
 				},
 				appBar: {
 					user: {

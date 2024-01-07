@@ -259,7 +259,7 @@ const MainListItems = (props) => {
 
 			<ListItemLink
 				to="/groups"
-				primary={"Grupos"}
+				primary={i18n.t("mainDrawer.listItems.groups")}
 				icon={<ContactPhoneOutlinedIcon />}
 			/>
 

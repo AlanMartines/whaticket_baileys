@@ -305,6 +305,7 @@ const messages = {
 					financeiro: "Financiero",
 					createaccount: "Creación de usuario",
 					companies: "Compañías",
+					groups: "Grupos",
 				},
 				appBar: {
 					user: {
