@@ -182,6 +182,25 @@ const messages = {
 					actions: "Ações",
 				},
 			},
+			groups: {
+				title: "Contatos",
+				toasts: {
+					deleted: "Contato excluído com sucesso!",
+				},
+				confirmationModal: {
+					deleteTitle: "Deletar ",
+					deleteMessage: "Tem certeza que deseja deletar este grupo?",
+				},
+				buttons: {
+					add: "Adicionar grupo",
+				},
+				table: {
+					name: "Nome",
+					whatsapp: "WhatsApp",
+					email: "Email",
+					actions: "Ações",
+				},
+			},
 			contactModal: {
 				title: {
 					add: "Adicionar contato",

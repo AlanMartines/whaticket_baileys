@@ -170,6 +170,25 @@ const messages = {
 					actions: "Acciones",
 				},
 			},
+			groups: {
+				title: "Contactos",
+				toasts: {
+					deleted: "¡Contacto borrado satisfactoriamente!",
+				},
+				confirmationModal: {
+					deleteTitle: "Borrar",
+					deleteMessage: "¿Estás seguro que deseas borrar este grupo?",
+				},
+				buttons: {
+					add: "Agregar grupo",
+				},
+				table: {
+					name: "Nombre",
+					whatsapp: "WhatsApp",
+					email: "Correo Electrónico",
+					actions: "Acciones",
+				},
+			},
 			contactModal: {
 				title: {
 					add: "Agregar contacto",
