@@ -380,7 +380,7 @@ const Groups = () => {
         whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
       />
       <MainHeader>
-        <Title>{i18n.t("connections.title")}</Title>
+        <Title>{i18n.t("mainDrawer.listItems.groups")}</Title>
         <MainHeaderButtonsWrapper>
           <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
