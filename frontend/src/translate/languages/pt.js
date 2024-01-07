@@ -183,7 +183,7 @@ const messages = {
 				},
 			},
 			groups: {
-				title: "Contatos",
+				title: "Grupos",
 				toasts: {
 					deleted: "Contato excluído com sucesso!",
 				},

@@ -171,7 +171,7 @@ const messages = {
 				},
 			},
 			groups: {
-				title: "Contacts",
+				title: "Groups",
 				toasts: {
 					deleted: "Contact deleted sucessfully!",
 				},
