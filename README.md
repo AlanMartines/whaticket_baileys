@@ -40,6 +40,9 @@ Instalar o Postgres Docker
 
 ```bash
 docker run -e TZ="America/Sao_Paulo" --name postgresql -e POSTGRES_USER=unkbot -e POSTGRES_PASSWORD=Suasenha -p 5432:5432 -d --restart=always -v /data:/var/lib/postgresql/data -d postgres
+docker exec -it postgresql bash
+psql -h localhost -U unkbot
+CREATE DATABASE dbwhaticket;
 ```
 
 Instalar o Redis Docker 
@@ -89,11 +92,11 @@ DB_HOST=localhost
 
 DB_PORT=5432
 
-DB_USER=admin
+DB_USER=unkbot
 
-DB_PASS=123456
+DB_PASS=Suasenha
 
-DB_NAME=whaticket_baileys
+DB_NAME=dbwhaticket
 
 JWT_SECRET=kZaOTd+YZpjRUyyuQUpigJaEMk4vcW4YOymKPZX0Ts8=
 
@@ -124,8 +127,12 @@ GERENCIANET_PIX_KEY=chave pix gerencianet
 VERIFY_TOKEN=whaticket
 
 FACEBOOK_APP_ID=
+
 FACEBOOK_APP_SECRET=
 
+ALLOWED_DOMAINS=http://localhost,http://localhost:3000
+
+SENTRY_DSN=
 ```
 
 Executa o npm install , cria o build cria as tabela e insere os registro padrão
