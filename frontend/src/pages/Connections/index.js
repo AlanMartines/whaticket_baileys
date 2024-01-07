@@ -9,30 +9,38 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import {
-  Button,
-  TableBody,
-  TableRow,
-  TableCell,
-  IconButton,
-  Table,
-  TableHead,
-  Paper,
-  Tooltip,
-  Typography,
-  CircularProgress,
+	Button,
+	TableBody,
+	TableRow,
+	TableCell,
+	IconButton,
+	Table,
+	TableHead,
+	Paper,
+	Tooltip,
+	Typography,
+	CircularProgress,
 } from "@material-ui/core";
 import {
-  Edit,
-  CheckCircle,
-  SignalCellularConnectedNoInternet2Bar,
-  SignalCellularConnectedNoInternet0Bar,
-  SignalCellular4Bar,
-  CropFree,
-  DeleteOutline,
-  Facebook,
-  Instagram,
-  WhatsApp,
+	Edit,
+	CheckCircle,
+	SignalCellularConnectedNoInternet2Bar,
+	SignalCellularConnectedNoInternet0Bar,
+	SignalCellular4Bar,
+	CropFree,
+	DeleteOutline,
+	Facebook,
+	Instagram,
+	WhatsApp,
 } from "@material-ui/icons";
+
+import logoBan from "../../assets/whatsapp-logo-ban.png";
+import logoClose from "../../assets/whatsapp-logo-close.png";
+import logoOff from "../../assets/whatsapp-logo-off.png";
+import logoOn from "../../assets/whatsapp-logo-on.png";
+import logoQRCode from "../../assets/whatsapp-logo-qrcode.png";
+import logoStart from "../../assets/whatsapp-logo-start.png";
+import logoTravado from "../../assets/whatsapp-logo-travado.png";
 
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
@@ -309,44 +317,47 @@ const Connections = () => {
     );
   };
 
-  const renderStatusToolTips = (whatsApp) => {
-    return (
-      <div className={classes.customTableCell}>
-        {whatsApp.status === "DISCONNECTED" && (
-          <CustomToolTip
-            title={i18n.t("connections.toolTips.disconnected.title")}
-            content={i18n.t("connections.toolTips.disconnected.content")}
-          >
-            <SignalCellularConnectedNoInternet0Bar color="secondary" />
-          </CustomToolTip>
-        )}
-        {whatsApp.status === "OPENING" && (
-          <CircularProgress size={24} className={classes.buttonProgress} />
-        )}
-        {whatsApp.status === "qrcode" && (
-          <CustomToolTip
-            title={i18n.t("connections.toolTips.qrcode.title")}
-            content={i18n.t("connections.toolTips.qrcode.content")}
-          >
-            <CropFree />
-          </CustomToolTip>
-        )}
-        {whatsApp.status === "CONNECTED" && (
-          <CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
-            <SignalCellular4Bar style={{ color: green[500] }} />
-          </CustomToolTip>
-        )}
-        {(whatsApp.status === "TIMEOUT" || whatsApp.status === "PAIRING") && (
-          <CustomToolTip
-            title={i18n.t("connections.toolTips.timeout.title")}
-            content={i18n.t("connections.toolTips.timeout.content")}
-          >
-            <SignalCellularConnectedNoInternet2Bar color="secondary" />
-          </CustomToolTip>
-        )}
-      </div>
-    );
-  };
+	const renderStatusToolTips = (whatsApp) => {
+		return (
+			<div className={classes.customTableCell}>
+				{whatsApp.status === "DISCONNECTED" && (
+					<CustomToolTip
+						title={i18n.t("connections.toolTips.disconnected.title")}
+						content={i18n.t("connections.toolTips.disconnected.content")}
+					>
+						{ /* <SignalCellularConnectedNoInternet0Bar color="secondary" /> */}
+						<img src={logoOff} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
+					</CustomToolTip>
+				)}
+				{whatsApp.status === "OPENING" && (
+					<CircularProgress size={24} className={classes.buttonProgress} />
+				)}
+				{whatsApp.status === "qrcode" && (
+					<CustomToolTip
+						title={i18n.t("connections.toolTips.qrcode.title")}
+						content={i18n.t("connections.toolTips.qrcode.content")}
+					>
+						<CropFree />
+					</CustomToolTip>
+				)}
+				{whatsApp.status === "CONNECTED" && (
+					<CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
+						{ /* <SignalCellular4Bar style={{ color: green[500] }} /> */}
+						<img src={logoOn} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
+					</CustomToolTip>
+				)}
+				{(whatsApp.status === "TIMEOUT" || whatsApp.status === "PAIRING") && (
+					<CustomToolTip
+						title={i18n.t("connections.toolTips.timeout.title")}
+						content={i18n.t("connections.toolTips.timeout.content")}
+					>
+						{ /* <SignalCellularConnectedNoInternet2Bar color="secondary" /> */}
+						<img src={logoTravado} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
+					</CustomToolTip>
+				)}
+			</div>
+		);
+	};
 
   return (
     <MainContainer>
