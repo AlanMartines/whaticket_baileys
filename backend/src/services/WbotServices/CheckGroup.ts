@@ -10,10 +10,6 @@ const checkGroup = async (
 ): Promise<any> => {
   let isGroupExit = await checker(numberGroup);
 
-  if (!isGroupExit) {
-    throw new Error("ERR_CHECK_GROUPID");
-  }
-
   return isGroupExit;
 };
 

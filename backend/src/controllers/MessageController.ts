@@ -215,7 +215,12 @@ export const sendGroup = async (req: Request, res: Response): Promise<Response> 
     const numberToTest = messageData.number;
     const body = messageData.body;
 
-    await CheckGroup(numberToTest);
+    const isGroupExit = await CheckGroup(numberToTest);
+		
+		if (!isGroupExit) {
+			throw new Error("ERR_CHECK_GROUPID");
+		}	
+
     const number = `${numberToTest}`;
 
     if (medias) {
