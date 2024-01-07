@@ -19,10 +19,7 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	InputAdornment,
-	IconButton,
 } from "@material-ui/core";
-import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -33,29 +30,18 @@ import { i18n } from "../../translate/i18n";
 import { openApi } from "../../services/api";
 import toastError from "../../errors/toastError";
 import moment from "moment";
-import InputMask from 'react-input-mask';
-
-const copyright = process.env.REACT_APP_COPYRIGHT || "";
-const copyrightYear = process.env.REACT_APP_COPYRIGHT_YEAR || "0000";
-const copyrightUrl = process.env.REACT_APP_COPYRIGHT_URL || "";
-const trialExpiration = process.env.REACT_APP_TRIALEXPIRATION || 3;
-const planIdDefault = process.env.REACT_APP_PLANIDDEFAULT || "";
-
-const Copyright = () => {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			{copyrightYear}
-			{"-"}
-			{new Date().getFullYear()}
-			{" - "}
-			<Link color="inherit" href={copyrightUrl}>
-				{copyright}
-			</Link>
-			{"."}
-		</Typography>
-	);
-};
+// const Copyright = () => {
+// 	return (
+// 		<Typography variant="body2" color="textSecondary" align="center">
+// 			{"Copyleft "}
+// 			<Link color="inherit" href="https://github.com/canove">
+// 				Canove
+// 			</Link>{" "}
+// 			{new Date().getFullYear()}
+// 			{"."}
+// 		</Typography>
+// 	);
+// };
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -79,25 +65,11 @@ const useStyles = makeStyles(theme => ({
 
 const UserSchema = Yup.object().shape({
 	name: Yup.string()
-		.min(3, i18n.t("signup.validate.name.min"))
-		.max(50, i18n.t("signup.validate.name.max"))
-		.required(i18n.t("signup.validate.name.required")),
-	phone: Yup.string()
-		.required(i18n.t("signup.validate.phone.required")),
-	email: Yup.string()
-		.email(i18n.t("signup.validate.email.email"))
-		.required(i18n.t("signup.validate.email.required")),
-	password: Yup.string()
-		.min(5, i18n.t("signup.validate.password.min"))
-		.max(50, i18n.t("signup.validate.password.max"))
-		.required(i18n.t("signup.validate.password.required")),
-	confirmPassword: Yup.string()
-		.required(i18n.t("signup.validate.password.confirmPassword"))
-		.oneOf([Yup.ref('password'), null], i18n.t("signup.validate.password.oneOf")),
-	planId: Yup.string()
-		.required(i18n.t("signup.validate.planId.required")),
-	acceptTerms: Yup.bool()
-		.oneOf([true], i18n.t("signup.validate.acceptTerms.required")),
+		.min(2, "Too Short!")
+		.max(50, "Too Long!")
+		.required("Required"),
+	password: Yup.string().min(5, "Too Short!").max(50, "Too Long!"),
+	email: Yup.string().email("Invalid email").required("Required"),
 });
 
 const SignUp = () => {
@@ -110,20 +82,15 @@ const SignUp = () => {
 		companyId = params.companyId
 	}
 
-	const initialState = { name: "", phone: "", email: "", password: "", confirmPassword: "", planId: planIdDefault, };
+	const initialState = { name: "", email: "", password: "", planId: "", };
 
 	const [user] = useState(initialState);
-	// Estado para a senha principal
-	const [showPassword, setShowPassword] = useState(false);
-	// Estado para a confirmação de senha
-	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-	const dueDate = moment().add(trialExpiration, "day").format();
+	const dueDate = moment().add(3, "day").format();
 	const handleSignUp = async values => {
 		Object.assign(values, { recurrence: "MENSAL" });
 		Object.assign(values, { dueDate: dueDate });
 		Object.assign(values, { status: "t" });
 		Object.assign(values, { campaignsEnabled: true });
-		Object.assign(values, { onlyAPI: false });
 		try {
 			await openApi.post("/companies/cadastro", values);
 			toast.success(i18n.t("signup.toasts.success"));
@@ -182,22 +149,9 @@ const SignUp = () => {
 										fullWidth
 										id="name"
 										label="Nome da Empresa"
-									/* required */
 									/>
 								</Grid>
-								<Grid item xs={12}>
-									<Field
-										as={TextField}
-										name="phone"
-										error={touched.phone && Boolean(errors.phone)}
-										helperText={touched.phone && errors.phone}
-										variant="outlined"
-										fullWidth
-										id="phone"
-										label="Telefone com DDI"
-										/* required */
-									/>
-              	</Grid>
+
 								<Grid item xs={12}>
 									<Field
 										as={TextField}
@@ -209,10 +163,9 @@ const SignUp = () => {
 										error={touched.email && Boolean(errors.email)}
 										helperText={touched.email && errors.email}
 										autoComplete="email"
-									/* required */
+										required
 									/>
 								</Grid>
-
 								<Grid item xs={12}>
 									<Field
 										as={TextField}
@@ -222,53 +175,12 @@ const SignUp = () => {
 										error={touched.password && Boolean(errors.password)}
 										helperText={touched.password && errors.password}
 										label={i18n.t("signup.form.password")}
-										type={showPassword ? 'text' : 'password'}
+										type="password"
 										id="password"
 										autoComplete="current-password"
-										InputProps={{
-											endAdornment: (
-												<InputAdornment position="end">
-													<IconButton
-														aria-label="toggle password visibility"
-														onClick={() => setShowPassword((prev) => !prev)}
-													>
-														{showPassword ? <VisibilityOff /> : <Visibility />}
-													</IconButton>
-												</InputAdornment>
-											),
-										}}
-									/* required */
+										required
 									/>
 								</Grid>
-
-								<Grid item xs={12}>
-									<Field
-										as={TextField}
-										variant="outlined"
-										fullWidth
-										name="confirmPassword"
-										error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-										helperText={touched.confirmPassword && errors.confirmPassword}
-										label={i18n.t("signup.form.confirmPassword")}
-										type={showConfirmPassword ? 'text' : 'password'}
-										id="confirmPassword"
-										autoComplete="current-password"
-										InputProps={{
-											endAdornment: (
-												<InputAdornment position="end">
-													<IconButton
-														aria-label="toggle confirmPassword visibility"
-														onClick={() => setShowConfirmPassword((prev) => !prev)}
-													>
-														{showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-													</IconButton>
-												</InputAdornment>
-											),
-										}}
-									/* required */
-									/>
-								</Grid>
-
 								<Grid item xs={12}>
 									<InputLabel htmlFor="plan-selection">Plano</InputLabel>
 									<Field
@@ -278,8 +190,7 @@ const SignUp = () => {
 										id="plan-selection"
 										label="Plano"
 										name="planId"
-										defaultValue={planIdDefault}
-									/* required */
+										required
 									>
 										{plans.map((plan, key) => (
 											<MenuItem key={key} value={plan.id}>
@@ -298,7 +209,6 @@ const SignUp = () => {
 							>
 								{i18n.t("signup.buttons.submit")}
 							</Button>
-							
 							<Grid container justify="flex-end">
 								<Grid item>
 									<Link
@@ -315,7 +225,7 @@ const SignUp = () => {
 					)}
 				</Formik>
 			</div>
-			<Box mt={5}>{<Copyright />}</Box>
+			<Box mt={5}>{/* <Copyright /> */}</Box>
 		</Container>
 	);
 };

@@ -4,47 +4,18 @@ const messages = {
 			signup: {
 				title: "Registro",
 				toasts: {
-					success: "¡El usuario ha sido creado satisfactoriamente! ¡Ahora inicia sesión!",
+					success:
+						"¡El usuario ha sido creado satisfactoriamente! ¡Ahora inicia sesión!",
 					fail: "Error creando el usuario. Verifica la data reportada.",
 				},
 				form: {
-					company: "Nombre de la Empresa",
 					name: "Nombre",
 					email: "Correo Electrónico",
 					password: "Contraseña",
-					confirmPassword: "La confirmación de contraseña",
 				},
 				buttons: {
 					submit: "Regístrate",
 					login: "¿Ya tienes una cuenta? ¡Inicia sesión!",
-				},
-				validate: {
-					name: {
-						required: "Por favor, proporcione un nombre",
-						min: "Por favor, proporcione un nombre más largo",
-						max: "Por favor, proporcione un nombre más corto",
-					},
-					phone: {
-						required: "Por favor, informe el número de teléfono",
-					},
-					email: {
-						required: "Por favor, proporcione un correo electrónico",
-						email: "Por favor, proporcione un correo electrónico válido",
-						test: "E-mail já existe",
-					},
-					password: {
-						required: "Por favor, proporcione una contraseña",
-						min: "Por favor, proporcione una contraseña más larga",
-						max: "Por favor, proporcione una contraseña más corta",
-						confirmPassword: "La confirmación de contraseña es obligatoria",
-						oneOf: "La confirmación de contraseña no coincide",
-					},
-					planId: {
-						required: "Por favor, seleccione un plan",
-					},
-					acceptTerms: {
-						required: "Aceptar los términos es obligatorio",
-					},
 				},
 			},
 			login: {
@@ -72,9 +43,9 @@ const messages = {
 			},
 			connections: {
 				title: "Conexiones",
-				add: "Añadir Conexión",
 				toasts: {
-					deleted: "¡La conexión de WhatsApp ha sido borrada satisfactoriamente!",
+					deleted:
+						"¡La conexión de WhatsApp ha sido borrada satisfactoriamente!",
 				},
 				confirmationModal: {
 					deleteTitle: "Borrar",
@@ -93,7 +64,8 @@ const messages = {
 				toolTips: {
 					disconnected: {
 						title: "No se pudo iniciar la sesión de WhatsApp",
-						content: "Asegúrese de que su teléfono celular esté conectado a Internet y vuelva a intentarlo o solicite un nuevo código QR",
+						content:
+							"Asegúrese de que su teléfono celular esté conectado a Internet y vuelva a intentarlo o solicite un nuevo código QR",
 					},
 					qrcode: {
 						title: "Esperando la lectura del código QR",
@@ -105,18 +77,17 @@ const messages = {
 					},
 					timeout: {
 						title: "Se perdió la conexión con el teléfono celular",
-						content: "Asegúrese de que su teléfono celular esté conectado a Internet y que WhatsApp esté abierto, o haga clic en el botón 'Desconectar' para obtener un nuevo código QR",
+						content:
+							"Asegúrese de que su teléfono celular esté conectado a Internet y que WhatsApp esté abierto, o haga clic en el botón 'Desconectar' para obtener un nuevo código QR",
 					},
 				},
 				table: {
-					company: "Empresa",
 					name: "Nombre",
 					status: "Estado",
 					lastUpdate: "Última Actualización",
 					default: "Por Defecto",
 					actions: "Acciones",
 					session: "Sesión",
-					duedate: "Fecha de Vencimiento",
 				},
 			},
 			whatsappModal: {
@@ -127,15 +98,6 @@ const messages = {
 				form: {
 					name: "Nombre",
 					default: "Por Defecto",
-					sendmass: "Envío masivo",
-					webhook_cli: "Webhook",
-					wh_message: "Mensagem",
-					wh_qrcode: "QRCode",
-					wh_connect: "Connect",
-					wh_status: "Status",
-					wh_info: "Nota: Marque el/los evento(s) que desea recibir una solicitud de tipo POST.",
-					whatsnotify: "WhatsApp de notificación + DDI",
-					token: "Token",
 				},
 				buttons: {
 					okAdd: "Agregar",
@@ -156,8 +118,10 @@ const messages = {
 				confirmationModal: {
 					deleteTitle: "Borrar",
 					importTitlte: "Importar contactos",
-					deleteMessage: "¿Estás seguro que deseas borrar este contacto? Todos los tickets relacionados se perderán.",
-					importMessage: "¿Quieres importar todos los contactos desde tu teléfono?",
+					deleteMessage:
+						"¿Estás seguro que deseas borrar este contacto? Todos los tickets relacionados se perderán.",
+					importMessage:
+						"¿Quieres importar todos los contactos desde tu teléfono?",
 				},
 				buttons: {
 					import: "Importar Contactos",
@@ -286,25 +250,14 @@ const messages = {
 			},
 			mainDrawer: {
 				listItems: {
-					dashboard: "Tablero",
+					dashboard: "Dashboard",
 					connections: "Conexiones",
-					tickets: "Atenciones",
-					quickMessages: "Respuestas Rápidas",
+					tickets: "Tickets",
 					contacts: "Contactos",
-					queues: "Colas & Chatbot",
-					tags: "Etiquetas",
+					queues: "Linhas",
 					administration: "Administración",
 					users: "Usuarios",
-					settings: "Configuraciones",
-					helps: "Ayuda",
-					messagesAPI: "API",
-					schedules: "Programaciones",
-					campaigns: "Campañas",
-					annoucements: "Anuncios",
-					chats: "Chat Interno",
-					financeiro: "Financiero",
-					createaccount: "Creación de usuario",
-					companies: "Compañías",
+					settings: "Configuración",
 				},
 				appBar: {
 					user: {
@@ -329,7 +282,8 @@ const messages = {
 				},
 				confirmationModal: {
 					deleteTitle: "Eliminar",
-					deleteMessage: "¿Estás seguro? ¡Esta acción no se puede revertir! Los tickets en esa cola seguirán existiendo, pero ya no tendrán ninguna cola asignada.",
+					deleteMessage:
+						"¿Estás seguro? ¡Esta acción no se puede revertir! Los tickets en esa cola seguirán existiendo, pero ya no tendrán ninguna cola asignada.",
 				},
 			},
 			queueSelect: {
@@ -351,7 +305,8 @@ const messages = {
 				},
 				confirmationModal: {
 					deleteTitle: "Borrar",
-					deleteMessage: "Toda la información del usuario se perderá. Los tickets abiertos de los usuarios se moverán a la cola.",
+					deleteMessage:
+						"Toda la información del usuario se perderá. Los tickets abiertos de los usuarios se moverán a la cola.",
 				},
 			},
 			settings: {
@@ -397,7 +352,8 @@ const messages = {
 				confirmationModal: {
 					title: "¿Borrar ticket #",
 					titleFrom: "del contacto ",
-					message: "¡Atención! Todos los mensajes Todos los mensajes relacionados con el ticket se perderán.",
+					message:
+						"¡Atención! Todos los mensajes Todos los mensajes relacionados con el ticket se perderán.",
 				},
 				buttons: {
 					delete: "Borrar",
@@ -419,33 +375,41 @@ const messages = {
 				},
 			},
 			backendErrors: {
-				ERR_NO_OTHER_WHATSAPP: "Debe haber al menos una conexión de WhatsApp predeterminada.",
-				ERR_NO_DEF_WAPP_FOUND: "No se encontró WhatsApp predeterminado. Verifique la página de conexiones.",
-				ERR_WAPP_NOT_INITIALIZED: "Esta sesión de WhatsApp no ​​está inicializada. Verifique la página de conexiones.",
-				ERR_WAPP_CHECK_CONTACT: "No se pudo verificar el contacto de WhatsApp. Verifique la página de conexiones.",
+				ERR_NO_OTHER_WHATSAPP:
+					"Debe haber al menos una conexión de WhatsApp predeterminada.",
+				ERR_NO_DEF_WAPP_FOUND:
+					"No se encontró WhatsApp predeterminado. Verifique la página de conexiones.",
+				ERR_WAPP_NOT_INITIALIZED:
+					"Esta sesión de WhatsApp no ​​está inicializada. Verifique la página de conexiones.",
+				ERR_WAPP_CHECK_CONTACT:
+					"No se pudo verificar el contacto de WhatsApp. Verifique la página de conexiones.",
 				ERR_WAPP_INVALID_CONTACT: "Este no es un número de whatsapp válido.",
-				ERR_WAPP_DOWNLOAD_MEDIA: "No se pudieron descargar los medios de WhatsApp. Verifique la página de conexiones.",
+				ERR_WAPP_DOWNLOAD_MEDIA:
+					"No se pudieron descargar los medios de WhatsApp. Verifique la página de conexiones.",
 				ERR_INVALID_CREDENTIALS: "Error de autenticación. Vuelva a intentarlo.",
-				ERR_SENDING_WAPP_MSG: "Error al enviar el mensaje de WhatsApp. Verifique la página de conexiones.",
+				ERR_SENDING_WAPP_MSG:
+					"Error al enviar el mensaje de WhatsApp. Verifique la página de conexiones.",
 				ERR_DELETE_WAPP_MSG: "No se pudo borrar el mensaje de WhatsApp.",
 				ERR_OTHER_OPEN_TICKET: "Ya hay un ticket abierto para este contacto.",
 				ERR_SESSION_EXPIRED: "Sesión caducada. Inicie sesión.",
-				ERR_SESSION_TOKEN_INVALID: "Token inválido. Intentaremos asignar uno nuevo en la próxima solicitud.",
-				ERR_USER_CREATION_DISABLED: "La creación de usuarios fue deshabilitada por el administrador.",
+				ERR_USER_CREATION_DISABLED:
+					"La creación de usuarios fue deshabilitada por el administrador.",
 				ERR_NO_PERMISSION: "No tienes permiso para acceder a este recurso.",
 				ERR_DUPLICATED_CONTACT: "Ya existe un contacto con este número.",
-				ERR_NO_SETTING_FOUND: "No se encontró ninguna configuración con este ID.",
+				ERR_NO_SETTING_FOUND:
+					"No se encontró ninguna configuración con este ID.",
 				ERR_NO_CONTACT_FOUND: "No se encontró ningún contacto con este ID.",
 				ERR_NO_TICKET_FOUND: "No se encontró ningún ticket con este ID.",
 				ERR_NO_USER_FOUND: "No se encontró ningún usuario con este ID.",
 				ERR_NO_WAPP_FOUND: "No se encontró WhatsApp con este ID.",
-				ERR_NO_ERROR_FOUND: "Ocurrió un error, pero ya estamos verificando.",
 				ERR_CREATING_MESSAGE: "Error al crear el mensaje en la base de datos.",
 				ERR_CREATING_TICKET: "Error al crear el ticket en la base de datos.",
-				ERR_FETCH_WAPP_MSG: "Error al obtener el mensaje en WhtasApp, tal vez sea demasiado antiguo.",
-				ERR_QUEUE_COLOR_ALREADY_EXISTS: "Este color ya está en uso, elija otro.",
-				ERR_WAPP_GREETING_REQUIRED: "El mensaje de saludo es obligatorio cuando hay más de una cola.",
-				ERR_INSUFFICIENT_RESOURCES: "El navegador encontró un problema de falta de recursos al intentar cargar una página",
+				ERR_FETCH_WAPP_MSG:
+					"Error al obtener el mensaje en WhtasApp, tal vez sea demasiado antiguo.",
+				ERR_QUEUE_COLOR_ALREADY_EXISTS:
+					"Este color ya está en uso, elija otro.",
+				ERR_WAPP_GREETING_REQUIRED:
+					"El mensaje de saludo es obligatorio cuando hay más de una cola.",
 			},
 		},
 	},

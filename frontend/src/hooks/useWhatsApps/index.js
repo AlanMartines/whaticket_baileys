@@ -3,10 +3,8 @@ import toastError from "../../errors/toastError";
 
 import api from "../../services/api";
 import { socketConnection } from "../../services/socket";
-import useAuth from "../../hooks/useAuth.js";
 
 const reducer = (state, action) => {
-
   if (action.type === "LOAD_WHATSAPPS") {
     const whatsApps = action.payload;
 
@@ -58,20 +56,12 @@ const reducer = (state, action) => {
 const useWhatsApps = () => {
   const [whatsApps, dispatch] = useReducer(reducer, []);
   const [loading, setLoading] = useState(true);
-	const [currentUser, setCurrentUser] = useState({});
-
-	const { getCurrentUserInfo } = useAuth();
 
   useEffect(() => {
     setLoading(true);
     const fetchSession = async () => {
-
-			const user = await getCurrentUserInfo();
-			setCurrentUser(user);
-			const isSuper = user.super;
-
       try {
-        const { data } = await api.get(`/whatsapp/?session=0&isSuper=${isSuper}`);
+        const { data } = await api.get("/whatsapp/?session=0");
         dispatch({ type: "LOAD_WHATSAPPS", payload: data });
         setLoading(false);
       } catch (err) {

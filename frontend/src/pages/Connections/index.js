@@ -9,38 +9,30 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import {
-	Button,
-	TableBody,
-	TableRow,
-	TableCell,
-	IconButton,
-	Table,
-	TableHead,
-	Paper,
-	Tooltip,
-	Typography,
-	CircularProgress,
+  Button,
+  TableBody,
+  TableRow,
+  TableCell,
+  IconButton,
+  Table,
+  TableHead,
+  Paper,
+  Tooltip,
+  Typography,
+  CircularProgress,
 } from "@material-ui/core";
 import {
-	Edit,
-	CheckCircle,
-	SignalCellularConnectedNoInternet2Bar,
-	SignalCellularConnectedNoInternet0Bar,
-	SignalCellular4Bar,
-	CropFree,
-	DeleteOutline,
-	Facebook,
-	Instagram,
-	WhatsApp,
+  Edit,
+  CheckCircle,
+  SignalCellularConnectedNoInternet2Bar,
+  SignalCellularConnectedNoInternet0Bar,
+  SignalCellular4Bar,
+  CropFree,
+  DeleteOutline,
+  Facebook,
+  Instagram,
+  WhatsApp,
 } from "@material-ui/icons";
-
-import logoBan from "../../assets/whatsapp-logo-ban.png";
-import logoClose from "../../assets/whatsapp-logo-close.png";
-import logoOff from "../../assets/whatsapp-logo-off.png";
-import logoOn from "../../assets/whatsapp-logo-on.png";
-import logoQRCode from "../../assets/whatsapp-logo-qrcode.png";
-import logoStart from "../../assets/whatsapp-logo-start.png";
-import logoTravado from "../../assets/whatsapp-logo-travado.png";
 
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
@@ -57,523 +49,479 @@ import QrcodeModal from "../../components/QrcodeModal";
 import { i18n } from "../../translate/i18n";
 import { WhatsAppsContext } from "../../context/WhatsApp/WhatsAppsContext";
 import toastError from "../../errors/toastError";
-import useAuth from "../../hooks/useAuth.js";
-
-import OnlyForSuperUser from "../../components/OnlyForSuperUser";
 
 const useStyles = makeStyles((theme) => ({
-	mainPaper: {
-		flex: 1,
-		padding: theme.spacing(1),
-		overflowY: "scroll",
-		...theme.scrollbarStyles,
-	},
-	customTableCell: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	tooltip: {
-		backgroundColor: "#f5f5f9",
-		color: "rgba(0, 0, 0, 0.87)",
-		fontSize: theme.typography.pxToRem(14),
-		border: "1px solid #dadde9",
-		maxWidth: 450,
-	},
-	tooltipPopper: {
-		textAlign: "center",
-	},
-	buttonProgress: {
-		color: green[500],
-	},
+  mainPaper: {
+    flex: 1,
+    padding: theme.spacing(1),
+    overflowY: "scroll",
+    ...theme.scrollbarStyles,
+  },
+  customTableCell: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tooltip: {
+    backgroundColor: "#f5f5f9",
+    color: "rgba(0, 0, 0, 0.87)",
+    fontSize: theme.typography.pxToRem(14),
+    border: "1px solid #dadde9",
+    maxWidth: 450,
+  },
+  tooltipPopper: {
+    textAlign: "center",
+  },
+  buttonProgress: {
+    color: green[500],
+  },
 }));
 
 const CustomToolTip = ({ title, content, children }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<Tooltip
-			arrow
-			classes={{
-				tooltip: classes.tooltip,
-				popper: classes.tooltipPopper,
-			}}
-			title={
-				<React.Fragment>
-					<Typography gutterBottom color="inherit">
-						{title}
-					</Typography>
-					{content && <Typography>{content}</Typography>}
-				</React.Fragment>
-			}
-		>
-			{children}
-		</Tooltip>
-	);
+  return (
+    <Tooltip
+      arrow
+      classes={{
+        tooltip: classes.tooltip,
+        popper: classes.tooltipPopper,
+      }}
+      title={
+        <React.Fragment>
+          <Typography gutterBottom color="inherit">
+            {title}
+          </Typography>
+          {content && <Typography>{content}</Typography>}
+        </React.Fragment>
+      }
+    >
+      {children}
+    </Tooltip>
+  );
 };
 
 const IconChannel = (channel) => {
-	switch (channel) {
-		case "facebook":
-			return <Facebook />;
-		case "instagram":
-			return <Instagram />;
-		case "whatsapp":
-			return <WhatsApp />;
-		default:
-			return "error";
-	}
-};
-
-const handleGetCompany = (name) => {
-	return name ? name : "-----";
-};
-
-const handleUserConn = (conn) => {
-	return conn ? conn : "-----";
+  switch (channel) {
+    case "facebook":
+      return <Facebook />;
+    case "instagram":
+      return <Instagram />;
+    case "whatsapp":
+      return <WhatsApp />;
+    default:
+      return "error";
+  }
 };
 
 const Connections = () => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const { whatsApps, loading } = useContext(WhatsAppsContext);
+  const { whatsApps, loading } = useContext(WhatsAppsContext);
+  const [whatsAppModalOpen, setWhatsAppModalOpen] = useState(false);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [selectedWhatsApp, setSelectedWhatsApp] = useState(null);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const confirmationModalInitialState = {
+    action: "",
+    title: "",
+    message: "",
+    whatsAppId: "",
+    open: false,
+  };
+  const [confirmModalInfo, setConfirmModalInfo] = useState(
+    confirmationModalInitialState
+  );
 
-	const [whatsAppModalOpen, setWhatsAppModalOpen] = useState(false);
-	const [qrModalOpen, setQrModalOpen] = useState(false);
-	const [selectedWhatsApp, setSelectedWhatsApp] = useState(null);
-	const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-	const [currentUser, setCurrentUser] = useState({});
+  const responseFacebook = (response) => {
+    if (response.status !== "unknown") {
+      const { accessToken, id } = response;
 
-	const { getCurrentUserInfo } = useAuth();
+      api
+        .post("/facebook", {
+          facebookUserId: id,
+          facebookUserToken: accessToken,
+        })
+        .then((response) => {
+          toast.success(i18n.t("connections.facebook.success"));
+        })
+        .catch((error) => {
+          toastError(error);
+        });
+    }
+  };
 
-	/*
-	(async () => {
-		const user = await getCurrentUserInfo();
-		setCurrentUser(user);
-	})();
-	*/
+  const responseInstagram = (response) => {
+    if (response.status !== "unknown") {
+      const { accessToken, id } = response;
 
-	const confirmationModalInitialState = {
-		action: "",
-		title: "",
-		message: "",
-		whatsAppId: "",
-		open: false,
-	};
+      api
+        .post("/facebook", {
+          addInstagram: true,
+          facebookUserId: id,
+          facebookUserToken: accessToken,
+        })
+        .then((response) => {
+          toast.success(i18n.t("connections.facebook.success"));
+        })
+        .catch((error) => {
+          toastError(error);
+        });
+    }
+  };
 
-	const [confirmModalInfo, setConfirmModalInfo] = useState(confirmationModalInitialState);
+  const handleStartWhatsAppSession = async (whatsAppId) => {
+    try {
+      await api.post(`/whatsappsession/${whatsAppId}`);
+    } catch (err) {
+      toastError(err);
+    }
+  };
 
-	const responseFacebook = (response) => {
-		if (response.status !== "unknown") {
-			const { accessToken, id } = response;
+  const handleRequestNewQrCode = async (whatsAppId) => {
+    try {
+      await api.put(`/whatsappsession/${whatsAppId}`);
+    } catch (err) {
+      toastError(err);
+    }
+  };
 
-			api
-				.post("/facebook", {
-					facebookUserId: id,
-					facebookUserToken: accessToken,
-				})
-				.then((response) => {
-					toast.success(i18n.t("connections.facebook.success"));
-				})
-				.catch((error) => {
-					toastError(error);
-				});
-		}
-	};
+  const handleOpenWhatsAppModal = () => {
+    setSelectedWhatsApp(null);
+    setWhatsAppModalOpen(true);
+  };
 
-	const responseInstagram = (response) => {
-		if (response.status !== "unknown") {
-			const { accessToken, id } = response;
+  const handleCloseWhatsAppModal = useCallback(() => {
+    setWhatsAppModalOpen(false);
+    setSelectedWhatsApp(null);
+  }, [setSelectedWhatsApp, setWhatsAppModalOpen]);
 
-			api.post("/facebook", {
-				addInstagram: true,
-				facebookUserId: id,
-				facebookUserToken: accessToken,
-			}).then((response) => {
-				toast.success(i18n.t("connections.facebook.success"));
-			}).catch((error) => {
-				toastError(error);
-			});
-		}
-	};
+  const handleOpenQrModal = (whatsApp) => {
+    setSelectedWhatsApp(whatsApp);
+    setQrModalOpen(true);
+  };
 
-	const handleStartWhatsAppSession = async (whatsAppId) => {
-		try {
-			await api.post(`/whatsappsession/${whatsAppId}`);
-		} catch (err) {
-			toastError(err);
-		}
-	};
+  const handleCloseQrModal = useCallback(() => {
+    setSelectedWhatsApp(null);
+    setQrModalOpen(false);
+  }, [setQrModalOpen, setSelectedWhatsApp]);
 
-	const handleRequestNewQrCode = async (whatsAppId) => {
-		try {
-			await api.put(`/whatsappsession/${whatsAppId}`);
-		} catch (err) {
-			toastError(err);
-		}
-	};
+  const handleEditWhatsApp = (whatsApp) => {
+    setSelectedWhatsApp(whatsApp);
+    setWhatsAppModalOpen(true);
+  };
 
-	const handleOpenWhatsAppModal = () => {
-		setSelectedWhatsApp(null);
-		setWhatsAppModalOpen(true);
-	};
+  const handleOpenConfirmationModal = (action, whatsAppId) => {
+    if (action === "disconnect") {
+      setConfirmModalInfo({
+        action: action,
+        title: i18n.t("connections.confirmationModal.disconnectTitle"),
+        message: i18n.t("connections.confirmationModal.disconnectMessage"),
+        whatsAppId: whatsAppId,
+      });
+    }
 
-	const handleCloseWhatsAppModal = useCallback(() => {
-		setWhatsAppModalOpen(false);
-		setSelectedWhatsApp(null);
-	}, [setSelectedWhatsApp, setWhatsAppModalOpen]);
+    if (action === "delete") {
+      setConfirmModalInfo({
+        action: action,
+        title: i18n.t("connections.confirmationModal.deleteTitle"),
+        message: i18n.t("connections.confirmationModal.deleteMessage"),
+        whatsAppId: whatsAppId,
+      });
+    }
+    setConfirmModalOpen(true);
+  };
 
-	const handleOpenQrModal = (whatsApp) => {
-		setSelectedWhatsApp(whatsApp);
-		setQrModalOpen(true);
-	};
+  const handleSubmitConfirmationModal = async () => {
+    if (confirmModalInfo.action === "disconnect") {
+      try {
+        await api.delete(`/whatsappsession/${confirmModalInfo.whatsAppId}`);
+      } catch (err) {
+        toastError(err);
+      }
+    }
 
-	const handleCloseQrModal = useCallback(() => {
-		setSelectedWhatsApp(null);
-		setQrModalOpen(false);
-	}, [setQrModalOpen, setSelectedWhatsApp]);
+    if (confirmModalInfo.action === "delete") {
+      try {
+        await api.delete(`/whatsapp/${confirmModalInfo.whatsAppId}`);
+        toast.success(i18n.t("connections.toasts.deleted"));
+      } catch (err) {
+        toastError(err);
+      }
+    }
 
-	const handleEditWhatsApp = (whatsApp) => {
-		setSelectedWhatsApp(whatsApp);
-		setWhatsAppModalOpen(true);
-	};
+    setConfirmModalInfo(confirmationModalInitialState);
+  };
 
-	const handleOpenConfirmationModal = (action, whatsAppId) => {
-		if (action === "disconnect") {
-			setConfirmModalInfo({
-				action: action,
-				title: i18n.t("connections.confirmationModal.disconnectTitle"),
-				message: i18n.t("connections.confirmationModal.disconnectMessage"),
-				whatsAppId: whatsAppId,
-			});
-		}
+  const renderActionButtons = (whatsApp) => {
+    return (
+      <>
+        {whatsApp.status === "qrcode" && (
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => handleOpenQrModal(whatsApp)}
+          >
+            {i18n.t("connections.buttons.qrcode")}
+          </Button>
+        )}
+        {whatsApp.status === "DISCONNECTED" && (
+          <>
+            <Button
+              size="small"
+              variant="outlined"
+              color="primary"
+              onClick={() => handleStartWhatsAppSession(whatsApp.id)}
+            >
+              {i18n.t("connections.buttons.tryAgain")}
+            </Button>{" "}
+            <Button
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={() => handleRequestNewQrCode(whatsApp.id)}
+            >
+              {i18n.t("connections.buttons.newQr")}
+            </Button>
+          </>
+        )}
+        {(whatsApp.status === "CONNECTED" ||
+          whatsApp.status === "PAIRING" ||
+          whatsApp.status === "TIMEOUT") && (
+          <Button
+            size="small"
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              handleOpenConfirmationModal("disconnect", whatsApp.id);
+            }}
+          >
+            {i18n.t("connections.buttons.disconnect")}
+          </Button>
+        )}
+        {whatsApp.status === "OPENING" && (
+          <Button size="small" variant="outlined" disabled color="default">
+            {i18n.t("connections.buttons.connecting")}
+          </Button>
+        )}
+      </>
+    );
+  };
 
-		if (action === "delete") {
-			setConfirmModalInfo({
-				action: action,
-				title: i18n.t("connections.confirmationModal.deleteTitle"),
-				message: i18n.t("connections.confirmationModal.deleteMessage"),
-				whatsAppId: whatsAppId,
-			});
-		}
-		setConfirmModalOpen(true);
-	};
+  const renderStatusToolTips = (whatsApp) => {
+    return (
+      <div className={classes.customTableCell}>
+        {whatsApp.status === "DISCONNECTED" && (
+          <CustomToolTip
+            title={i18n.t("connections.toolTips.disconnected.title")}
+            content={i18n.t("connections.toolTips.disconnected.content")}
+          >
+            <SignalCellularConnectedNoInternet0Bar color="secondary" />
+          </CustomToolTip>
+        )}
+        {whatsApp.status === "OPENING" && (
+          <CircularProgress size={24} className={classes.buttonProgress} />
+        )}
+        {whatsApp.status === "qrcode" && (
+          <CustomToolTip
+            title={i18n.t("connections.toolTips.qrcode.title")}
+            content={i18n.t("connections.toolTips.qrcode.content")}
+          >
+            <CropFree />
+          </CustomToolTip>
+        )}
+        {whatsApp.status === "CONNECTED" && (
+          <CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
+            <SignalCellular4Bar style={{ color: green[500] }} />
+          </CustomToolTip>
+        )}
+        {(whatsApp.status === "TIMEOUT" || whatsApp.status === "PAIRING") && (
+          <CustomToolTip
+            title={i18n.t("connections.toolTips.timeout.title")}
+            content={i18n.t("connections.toolTips.timeout.content")}
+          >
+            <SignalCellularConnectedNoInternet2Bar color="secondary" />
+          </CustomToolTip>
+        )}
+      </div>
+    );
+  };
 
-	const handleSubmitConfirmationModal = async () => {
-		if (confirmModalInfo.action === "disconnect") {
-			try {
-				await api.delete(`/whatsappsession/${confirmModalInfo.whatsAppId}`);
-			} catch (err) {
-				toastError(err);
-			}
-		}
+  return (
+    <MainContainer>
+      <ConfirmationModal
+        title={confirmModalInfo.title}
+        open={confirmModalOpen}
+        onClose={setConfirmModalOpen}
+        onConfirm={handleSubmitConfirmationModal}
+      >
+        {confirmModalInfo.message}
+      </ConfirmationModal>
+      <QrcodeModal
+        open={qrModalOpen}
+        onClose={handleCloseQrModal}
+        whatsAppId={!whatsAppModalOpen && selectedWhatsApp?.id}
+      />
+      <WhatsAppModal
+        open={whatsAppModalOpen}
+        onClose={handleCloseWhatsAppModal}
+        whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
+      />
+      <MainHeader>
+        <Title>{i18n.t("connections.title")}</Title>
+        <MainHeaderButtonsWrapper>
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {(popupState) => (
+              <React.Fragment>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  {...bindTrigger(popupState)}
+                >
+                 Adicionar Conexão
+                </Button>
+                <Menu {...bindMenu(popupState)}>
+                  <MenuItem
+                    onClick={() => {
+                      handleOpenWhatsAppModal();
+                      popupState.close();
+                    }}
+                  >
+                    <WhatsApp
+                      fontSize="small"
+                      style={{
+                        marginRight: "10px",
+                      }}
+                    />
+                    WhatsApp
+                  </MenuItem>
+                  <FacebookLogin
+                    appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    version="13.0"
+                    scope="public_profile,pages_messaging,pages_show_list,pages_manage_metadata,pages_read_engagement"
+                    callback={responseFacebook}
+                    render={(renderProps) => (
+                      <MenuItem onClick={renderProps.onClick}>
+                        <Facebook
+                          fontSize="small"
+                          style={{
+                            marginRight: "10px",
+                          }}
+                        />
+                        Facebook
+                      </MenuItem>
+                    )}
+                  />
 
-		if (confirmModalInfo.action === "delete") {
-			try {
-				await api.delete(`/whatsapp/${confirmModalInfo.whatsAppId}`);
-				toast.success(i18n.t("connections.toasts.deleted"));
-			} catch (err) {
-				toastError(err);
-			}
-		}
+                  <FacebookLogin
+                    appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    version="13.0"
+                    scope="public_profile,instagram_basic,instagram_manage_messages,pages_messaging,pages_show_list,pages_manage_metadata,pages_read_engagement"
+                    callback={responseInstagram}
+                    render={(renderProps) => (
+                      <MenuItem onClick={renderProps.onClick}>
+                        <Instagram
+                          fontSize="small"
+                          style={{
+                            marginRight: "10px",
+                          }}
+                        />
+                        Instagram
+                      </MenuItem>
+                    )}
+                  />
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </MainHeaderButtonsWrapper>
+      </MainHeader>
+      <Paper className={classes.mainPaper} variant="outlined">
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">
+                Channel
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.name")}
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.status")}
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.session")}
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.lastUpdate")}
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.default")}
+              </TableCell>
+              <TableCell align="center">
+                {i18n.t("connections.table.actions")}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {loading ? (
+              <TableRowSkeleton />
+            ) : (
+              <>
+                {whatsApps?.length > 0 &&
+                  whatsApps.map((whatsApp) => (
+                    <TableRow key={whatsApp.id}>
+                      <TableCell align="center">
+                        {IconChannel(whatsApp.channel)}
+                      </TableCell>
+                      <TableCell align="center">{whatsApp.name}</TableCell>
+                      <TableCell align="center">
+                        {renderStatusToolTips(whatsApp)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {renderActionButtons(whatsApp)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {format(parseISO(whatsApp.updatedAt), "dd/MM/yy HH:mm")}
+                      </TableCell>
+                      <TableCell align="center">
+                        {whatsApp.isDefault && (
+                          <div className={classes.customTableCell}>
+                            <CheckCircle style={{ color: green[500] }} />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell align="center">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleEditWhatsApp(whatsApp)}
+                        >
+                          <Edit />
+                        </IconButton>
 
-		setConfirmModalInfo(confirmationModalInitialState);
-	};
-
-	const renderActionButtons = (whatsApp) => {
-		return (
-			<>
-				{whatsApp.status === "qrcode" && (
-					<Button
-						size="small"
-						variant="contained"
-						color="primary"
-						onClick={() => handleOpenQrModal(whatsApp)}
-					>
-						{i18n.t("connections.buttons.qrcode")}
-					</Button>
-				)}
-				{whatsApp.status === "DISCONNECTED" && (
-					<>
-						<Button
-							size="small"
-							variant="outlined"
-							color="primary"
-							onClick={() => handleStartWhatsAppSession(whatsApp.id)}
-						>
-							{i18n.t("connections.buttons.tryAgain")}
-						</Button>{" "}
-						<Button
-							size="small"
-							variant="outlined"
-							color="secondary"
-							onClick={() => handleRequestNewQrCode(whatsApp.id)}
-						>
-							{i18n.t("connections.buttons.newQr")}
-						</Button>
-					</>
-				)}
-				{(whatsApp.status === "CONNECTED" ||
-					whatsApp.status === "PAIRING" ||
-					whatsApp.status === "TIMEOUT") && (
-						<Button
-							size="small"
-							variant="outlined"
-							color="secondary"
-							onClick={() => {
-								handleOpenConfirmationModal("disconnect", whatsApp.id);
-							}}
-						>
-							{i18n.t("connections.buttons.disconnect")}
-						</Button>
-					)}
-				{whatsApp.status === "OPENING" && (
-					<Button size="small" variant="outlined" disabled color="default">
-						{i18n.t("connections.buttons.connecting")}
-					</Button>
-				)}
-			</>
-		);
-	};
-
-	const renderStatusToolTips = (whatsApp) => {
-		return (
-			<div className={classes.customTableCell}>
-				{whatsApp.status === "DISCONNECTED" && (
-					<CustomToolTip
-						title={i18n.t("connections.toolTips.disconnected.title")}
-						content={i18n.t("connections.toolTips.disconnected.content")}
-					>
-						{ /* <SignalCellularConnectedNoInternet0Bar color="secondary" /> */}
-						<img src={logoOff} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
-					</CustomToolTip>
-				)}
-				{whatsApp.status === "OPENING" && (
-					<CircularProgress size={24} className={classes.buttonProgress} />
-				)}
-				{whatsApp.status === "qrcode" && (
-					<CustomToolTip
-						title={i18n.t("connections.toolTips.qrcode.title")}
-						content={i18n.t("connections.toolTips.qrcode.content")}
-					>
-						<CropFree />
-					</CustomToolTip>
-				)}
-				{whatsApp.status === "CONNECTED" && (
-					<CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
-						{ /* <SignalCellular4Bar style={{ color: green[500] }} /> */}
-						<img src={logoOn} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
-					</CustomToolTip>
-				)}
-				{(whatsApp.status === "TIMEOUT" || whatsApp.status === "PAIRING") && (
-					<CustomToolTip
-						title={i18n.t("connections.toolTips.timeout.title")}
-						content={i18n.t("connections.toolTips.timeout.content")}
-					>
-						{ /* <SignalCellularConnectedNoInternet2Bar color="secondary" /> */}
-						<img src={logoTravado} style={{ margin: "0 auto", height: "32px", width: "32px" }} alt="Status" />
-					</CustomToolTip>
-				)}
-			</div>
-		);
-	};
-
-	return (
-		<MainContainer>
-			<ConfirmationModal
-				title={confirmModalInfo.title}
-				open={confirmModalOpen}
-				onClose={setConfirmModalOpen}
-				onConfirm={handleSubmitConfirmationModal}
-			>
-				{confirmModalInfo.message}
-			</ConfirmationModal>
-			<QrcodeModal
-				open={qrModalOpen}
-				onClose={handleCloseQrModal}
-				whatsAppId={!whatsAppModalOpen && selectedWhatsApp?.id}
-			/>
-			<WhatsAppModal
-				open={whatsAppModalOpen}
-				onClose={handleCloseWhatsAppModal}
-				whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
-			/>
-			<MainHeader>
-				<Title>{i18n.t("connections.title")}</Title>
-				<MainHeaderButtonsWrapper>
-					<PopupState variant="popover" popupId="demo-popup-menu">
-						{(popupState) => (
-							<React.Fragment>
-								<Button
-									variant="contained"
-									color="primary"
-									{...bindTrigger(popupState)}
-								>
-									Adicionar Conexão
-								</Button>
-								<Menu {...bindMenu(popupState)}>
-									<MenuItem
-										onClick={() => {
-											handleOpenWhatsAppModal();
-											popupState.close();
-										}}
-									>
-										<WhatsApp
-											fontSize="small"
-											style={{
-												marginRight: "10px",
-											}}
-										/>
-										WhatsApp
-									</MenuItem>
-									<FacebookLogin
-										appId={process.env.REACT_APP_FACEBOOK_APP_ID}
-										autoLoad={false}
-										fields="name,email,picture"
-										version="13.0"
-										scope="public_profile,pages_messaging,pages_show_list,pages_manage_metadata,pages_read_engagement"
-										callback={responseFacebook}
-										render={(renderProps) => (
-											<MenuItem onClick={renderProps.onClick}>
-												<Facebook
-													fontSize="small"
-													style={{
-														marginRight: "10px",
-													}}
-												/>
-												Facebook
-											</MenuItem>
-										)}
-									/>
-
-									<FacebookLogin
-										appId={process.env.REACT_APP_FACEBOOK_APP_ID}
-										autoLoad={false}
-										fields="name,email,picture"
-										version="13.0"
-										scope="public_profile,instagram_basic,instagram_manage_messages,pages_messaging,pages_show_list,pages_manage_metadata,pages_read_engagement"
-										callback={responseInstagram}
-										render={(renderProps) => (
-											<MenuItem onClick={renderProps.onClick}>
-												<Instagram
-													fontSize="small"
-													style={{
-														marginRight: "10px",
-													}}
-												/>
-												Instagram
-											</MenuItem>
-										)}
-									/>
-								</Menu>
-							</React.Fragment>
-						)}
-					</PopupState>
-				</MainHeaderButtonsWrapper>
-			</MainHeader>
-			<Paper className={classes.mainPaper} variant="outlined">
-				<Table size="small">
-					<TableHead>
-						<TableRow>
-							{ /*
-							<TableCell align="center">
-								{i18n.t("connections.table.company")}
-							</TableCell>
-							*/ }
-							<TableCell align="center">
-								{i18n.t("connections.table.name")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.status")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.session")}
-							</TableCell>
-							<TableCell align="center">
-								{ "User Conn"}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.lastUpdate")}
-							</TableCell>
-							{ /*
-							<TableCell align="center">
-								{i18n.t("connections.table.duedate")}
-							</TableCell>
-							*/ }
-							<TableCell align="center">
-								{i18n.t("connections.table.default")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.actions")}
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{loading ? (
-							<TableRowSkeleton />
-						) : (
-							<>
-								{whatsApps?.length > 0 &&
-									whatsApps.map((whatsApp) => (
-										<TableRow key={whatsApp.id}>
-											{ /*
-											<TableCell align="center">
-												{ handleGetCompany(whatsApp.company.name) }
-											</TableCell>
-											*/ }
-											<TableCell align="center">
-												{whatsApp.name}
-											</TableCell>
-											<TableCell align="center">
-												{renderStatusToolTips(whatsApp)}
-											</TableCell>
-											<TableCell align="center">
-												{renderActionButtons(whatsApp)}
-											</TableCell>
-											<TableCell align="center">
-												{handleUserConn(whatsApp.userConn)}
-											</TableCell>
-											{ /*
-											<TableCell align="center">
-												{format(parseISO(whatsApp.company.dueDate), "dd/MM/yyyy HH:mm")}
-											</TableCell>
-											*/ }
-											<TableCell align="center">
-												{format(parseISO(whatsApp.updatedAt), "dd/MM/yyyy HH:mm")}
-											</TableCell>
-											<TableCell align="center">
-												{whatsApp.isDefault && (
-													<div className={classes.customTableCell}>
-														<CheckCircle style={{ color: green[500] }} />
-													</div>
-												)}
-											</TableCell>
-											<TableCell align="center">
-												<IconButton
-													size="small"
-													onClick={() => handleEditWhatsApp(whatsApp)}
-												>
-													<Edit />
-												</IconButton>
-
-												<IconButton
-													size="small"
-													onClick={(e) => {
-														handleOpenConfirmationModal("delete", whatsApp.id);
-													}}
-												>
-													<DeleteOutline />
-												</IconButton>
-											</TableCell>
-										</TableRow>
-									))}
-							</>
-						)}
-					</TableBody>
-				</Table>
-			</Paper>
-		</MainContainer>
-	);
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            handleOpenConfirmationModal("delete", whatsApp.id);
+                          }}
+                        >
+                          <DeleteOutline />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </>
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
+    </MainContainer>
+  );
 };
 
 export default Connections;

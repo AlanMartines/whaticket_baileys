@@ -8,43 +8,13 @@ const messages = {
 					fail: "Error creating user. Check the reported data.",
 				},
 				form: {
-					company: "Company Name",
 					name: "Name",
 					email: "Email",
 					password: "Password",
-					confirmPassword: "Confirm Password",
 				},
 				buttons: {
 					submit: "Register",
 					login: "Already have an account? Log in!",
-				},
-				validate: {
-					name: {
-						required: "Please provide a name",
-						min: "Please provide a longer name",
-						max: "Please provide a shorter name",
-					},
-					phone: {
-						required: "Please provide the phone number",
-					},
-					email: {
-						required: "Please provide an email",
-						email: "Please provide a valid email",
-						test: "El correo electrónico ya está en uso",
-					},
-					password: {
-						required: "Please provide a password",
-						min: "Please provide a longer password",
-						max: "Please provide a shorter password",
-						confirmPassword: "Confirm Password is required",
-						oneOf: "Confirm Password does not match",
-					},
-					planId: {
-						required: "Please select a plan",
-					},
-					acceptTerms: {
-						required: "Accept Terms is required",
-					},
 				},
 			},
 			login: {
@@ -72,7 +42,6 @@ const messages = {
 			},
 			connections: {
 				title: "Connections",
-				add: "Add Connection",
 				toasts: {
 					deleted: "WhatsApp connection deleted sucessfully!",
 				},
@@ -93,30 +62,30 @@ const messages = {
 				toolTips: {
 					disconnected: {
 						title: "Failed to start WhatsApp session",
-						content: "Make sure your cell phone is connected to the internet and try again, or request a new QR Code",
+						content:
+							"Make sure your cell phone is connected to the internet and try again, or request a new QR Code",
 					},
 					qrcode: {
 						title: "Waiting for QR Code read",
-						content: "Click on 'QR CODE' button and read the QR Code with your cell phone to start session",
+						content:
+							"Click on 'QR CODE' button and read the QR Code with your cell phone to start session",
 					},
 					connected: {
 						title: "Connection established",
 					},
 					timeout: {
 						title: "Connection with cell phone has been lost",
-						content: "Make sure your cell phone is connected to the internet and WhatsApp is open, or click on 'Disconnect' button to get a new QRcode",
+						content:
+							"Make sure your cell phone is connected to the internet and WhatsApp is open, or click on 'Disconnect' button to get a new QRcode",
 					},
 				},
 				table: {
-					company: "Company",
-					channel: "Channel",
 					name: "Name",
 					status: "Status",
 					lastUpdate: "Last Update",
 					default: "Default",
 					actions: "Actions",
 					session: "Session",
-					duedate: "Due Date",
 				},
 			},
 			whatsappModal: {
@@ -127,15 +96,6 @@ const messages = {
 				form: {
 					name: "Name",
 					default: "Default",
-					sendmass: "Mass mailing",
-					webhook_cli: "Webhook",
-					wh_message: "Menssage",
-					wh_qrcode: "QRCode",
-					wh_connect: "Connect",
-					wh_status: "Status",
-					wh_info: "Note: Mark the event(s) you wish to receive a POST type request",
-					whatsnotify: "Notification WhatsApp + DDI",
-					token: "Token",
 				},
 				buttons: {
 					okAdd: "Add",
@@ -156,7 +116,8 @@ const messages = {
 				confirmationModal: {
 					deleteTitle: "Delete",
 					importTitlte: "Import contacts",
-					deleteMessage: "Are you sure you want to delete this contact? All related tickets will be lost.",
+					deleteMessage:
+						"Are you sure you want to delete this contact? All related tickets will be lost.",
 					importMessage: "Do you want to import all contacts from the phone?",
 				},
 				buttons: {
@@ -288,22 +249,11 @@ const messages = {
 					dashboard: "Dashboard",
 					connections: "Connections",
 					tickets: "Tickets",
-					quickMessages: "Quick Responses",
 					contacts: "Contacts",
-					queues: "Queues & Chatbot",
-					tags: "Tags",
+					queues: "Queues",
 					administration: "Administration",
 					users: "Users",
 					settings: "Settings",
-					helps: "Help",
-					messagesAPI: "API",
-					schedules: "Schedules",
-					campaigns: "Campaigns",
-					annoucements: "Announcements",
-					chats: "Internal Chat",
-					financeiro: "Financial",
-					createaccount: "User Creation",
-					companies: "Companies",
 				},
 				appBar: {
 					user: {
@@ -328,7 +278,8 @@ const messages = {
 				},
 				confirmationModal: {
 					deleteTitle: "Delete",
-					deleteMessage: "Are you sure? It cannot be reverted! Tickets in this queue will still exist, but will not have any queues assigned.",
+					deleteMessage:
+						"Are you sure? It cannot be reverted! Tickets in this queue will still exist, but will not have any queues assigned.",
 				},
 			},
 			queueSelect: {
@@ -350,7 +301,8 @@ const messages = {
 				},
 				confirmationModal: {
 					deleteTitle: "Delete",
-					deleteMessage: "All user data will be lost. Users' open tickets will be moved to queue.",
+					deleteMessage:
+						"All user data will be lost. Users' open tickets will be moved to queue.",
 				},
 			},
 			settings: {
@@ -417,19 +369,26 @@ const messages = {
 				},
 			},
 			backendErrors: {
-				ERR_NO_OTHER_WHATSAPP: "There must be at lest one default WhatsApp connection.",
-				ERR_NO_DEF_WAPP_FOUND: "No default WhatsApp found. Check connections page.",
-				ERR_WAPP_NOT_INITIALIZED: "This WhatsApp session is not initialized. Check connections page.",
-				ERR_WAPP_CHECK_CONTACT: "Could not check WhatsApp contact. Check connections page.",
+				ERR_NO_OTHER_WHATSAPP:
+					"There must be at lest one default WhatsApp connection.",
+				ERR_NO_DEF_WAPP_FOUND:
+					"No default WhatsApp found. Check connections page.",
+				ERR_WAPP_NOT_INITIALIZED:
+					"This WhatsApp session is not initialized. Check connections page.",
+				ERR_WAPP_CHECK_CONTACT:
+					"Could not check WhatsApp contact. Check connections page.",
 				ERR_WAPP_INVALID_CONTACT: "This is not a valid whatsapp number.",
-				ERR_WAPP_DOWNLOAD_MEDIA: "Could not download media from WhatsApp. Check connections page.",
+				ERR_WAPP_DOWNLOAD_MEDIA:
+					"Could not download media from WhatsApp. Check connections page.",
 				ERR_INVALID_CREDENTIALS: "Authentication error. Please try again.",
-				ERR_SENDING_WAPP_MSG: "Error sending WhatsApp message. Check connections page.",
+				ERR_SENDING_WAPP_MSG:
+					"Error sending WhatsApp message. Check connections page.",
 				ERR_DELETE_WAPP_MSG: "Couldn't delete message from WhatsApp.",
-				ERR_OTHER_OPEN_TICKET: "There's already an open ticket for this contact.",
+				ERR_OTHER_OPEN_TICKET:
+					"There's already an open ticket for this contact.",
 				ERR_SESSION_EXPIRED: "Session expired. Please login.",
-				ERR_SESSION_TOKEN_INVALID: "Invalid token. We'll try to assign a new one on next request.",
-				ERR_USER_CREATION_DISABLED: "User creation was disabled by administrator.",
+				ERR_USER_CREATION_DISABLED:
+					"User creation was disabled by administrator.",
 				ERR_NO_PERMISSION: "You don't have permission to access this resource.",
 				ERR_DUPLICATED_CONTACT: "A contact with this number already exists.",
 				ERR_NO_SETTING_FOUND: "No setting found with this ID.",
@@ -437,13 +396,14 @@ const messages = {
 				ERR_NO_TICKET_FOUND: "No ticket found with this ID.",
 				ERR_NO_USER_FOUND: "No user found with this ID.",
 				ERR_NO_WAPP_FOUND: "No WhatsApp found with this ID.",
-				ERR_NO_ERROR_FOUND: "An error occurred, but we are already checking.",
 				ERR_CREATING_MESSAGE: "Error while creating message on database.",
 				ERR_CREATING_TICKET: "Error while creating ticket on database.",
-				ERR_FETCH_WAPP_MSG: "Error fetching the message in WhtasApp, maybe it is too old.",
-				ERR_QUEUE_COLOR_ALREADY_EXISTS: "This color is already in use, pick another one.",
-				ERR_WAPP_GREETING_REQUIRED: "Greeting message is required if there is more than one queue.",
-				ERR_INSUFFICIENT_RESOURCES: "The browser encountered a resource shortage problem while trying to load a page.",
+				ERR_FETCH_WAPP_MSG:
+					"Error fetching the message in WhtasApp, maybe it is too old.",
+				ERR_QUEUE_COLOR_ALREADY_EXISTS:
+					"This color is already in use, pick another one.",
+				ERR_WAPP_GREETING_REQUIRED:
+					"Greeting message is required if there is more than one queue.",
 			},
 		},
 	},
