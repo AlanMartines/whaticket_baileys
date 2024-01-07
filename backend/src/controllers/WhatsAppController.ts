@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { toDataURL } from "qrcode";
 import { getIO } from "../libs/socket";
 import { removeWbot } from "../libs/wbot";
 import Whatsapp from "../models/Whatsapp";
@@ -13,17 +14,22 @@ import ShowWhatsAppService from "../services/WhatsappService/ShowWhatsAppService
 import UpdateWhatsAppService from "../services/WhatsappService/UpdateWhatsAppService";
 
 interface WhatsappData {
-  name: string;
-  queueIds: number[];
-  companyId: number;
-  greetingMessage?: string;
-  complationMessage?: string;
-  outOfHoursMessage?: string;
-  ratingMessage?: string;
-  status?: string;
-  isDefault?: boolean;
-  token?: string;
+	name: string;
+	queueIds: number[];
+	companyId: number | string;
+	greetingMessage?: string;
+	complationMessage?: string;
+	outOfHoursMessage?: string;
+	ratingMessage?: string;
+	status?: string;
+	isDefault?: boolean;
+	token?: string;
   expiresTicket?: string;
+	webhook_cli?: string;
+	wh_message?: boolean;
+	wh_qrcode?: boolean;
+	wh_connect?: boolean;
+	wh_status?: boolean;
 }
 
 interface QueryParams {
@@ -40,29 +46,39 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const {
-    name,
-    status,
-    isDefault,
-    greetingMessage,
-    complationMessage,
-    outOfHoursMessage,
-    queueIds,
-    token,
-    expiresTicket
+		name,
+		status,
+		isDefault,
+		greetingMessage,
+		complationMessage,
+		outOfHoursMessage,
+		queueIds,
+		token,
+    expiresTicket,
+		webhook_cli,
+		wh_message,
+		wh_qrcode,
+		wh_connect,
+		wh_status
   }: WhatsappData = req.body;
   const { companyId } = req.user;
 
   const { whatsapp, oldDefaultWhatsapp } = await CreateWhatsAppService({
-    name,
-    status,
-    isDefault,
-    greetingMessage,
-    complationMessage,
-    outOfHoursMessage,
-    queueIds,
-    companyId,
-    token,
-    expiresTicket
+		name,
+		status,
+		isDefault,
+		greetingMessage,
+		complationMessage,
+		outOfHoursMessage,
+		queueIds,
+		companyId,
+		token,
+    expiresTicket,
+		webhook_cli,
+		wh_message,
+		wh_qrcode,
+		wh_connect,
+		wh_status
   });
 
   StartWhatsAppSession(whatsapp, companyId);

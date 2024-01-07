@@ -8,7 +8,7 @@ import AssociateWhatsappQueue from "./AssociateWhatsappQueue";
 
 interface Request {
   name: string;
-  companyId: number;
+	companyId: number | string;
   queueIds?: number[];
   greetingMessage?: string;
   complationMessage?: string;
@@ -24,6 +24,11 @@ interface Request {
   channel?: string;
   facebookPageUserId?: string;
   expiresTicket?: string;
+	webhook_cli?: string;
+	wh_message?: boolean;
+	wh_qrcode?: boolean;
+	wh_connect?: boolean;
+	wh_status?: boolean;
 }
 
 interface Response {
@@ -48,7 +53,12 @@ const CreateWhatsAppService = async ({
   facebookPageUserId,
   tokenMeta,
   channel = "whatsapp",
-  expiresTicket
+  expiresTicket,
+	webhook_cli,
+	wh_message,
+	wh_qrcode,
+	wh_connect,
+	wh_status
 }: Request): Promise<Response> => {
   const company = await Company.findOne({
     where: {
@@ -159,7 +169,12 @@ const CreateWhatsAppService = async ({
       facebookUserToken,
       facebookPageUserId,
       tokenMeta,
-      expiresTicket
+      expiresTicket,
+			webhook_cli,
+			wh_message,
+			wh_qrcode,
+			wh_connect,
+			wh_status
     },
     { include: ["queues"] }
   );

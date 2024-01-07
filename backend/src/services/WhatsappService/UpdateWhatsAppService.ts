@@ -18,6 +18,11 @@ interface WhatsappData {
   queueIds?: number[];
   token?: string;
   expiresTicket?: string;
+	webhook_cli?: string;
+	wh_message?: boolean;
+	wh_qrcode?: boolean;
+	wh_connect?: boolean;
+	wh_status?: boolean;
 }
 
 interface Request {
@@ -53,7 +58,12 @@ const UpdateWhatsAppService = async ({
     ratingMessage,
     queueIds = [],
     token,
-    expiresTicket
+    expiresTicket,
+		webhook_cli,
+		wh_message,
+		wh_qrcode,
+		wh_connect,
+		wh_status
   } = whatsappData;
 
   try {
@@ -94,7 +104,12 @@ const UpdateWhatsAppService = async ({
     isDefault,
     companyId,
     token,
-    expiresTicket
+    expiresTicket,
+		webhook_cli,
+		wh_message,
+		wh_qrcode,
+		wh_connect,
+		wh_status
   });
 
   await AssociateWhatsappQueue(whatsapp, queueIds);

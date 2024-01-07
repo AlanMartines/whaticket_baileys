@@ -23,9 +23,10 @@ module.exports = {
           "Companies",
           [
             {
-              name: "Empresa 1",
+              name: "Administrador",
               planId: 1,
-              dueDate: "2093-03-14 04:00:00+01",
+              dueDate: "3000-12-30 00:00:00+01",
+							onlyAPI: false,
               createdAt: new Date(),
               updatedAt: new Date()
             }
