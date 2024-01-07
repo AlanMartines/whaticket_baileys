@@ -40,3 +40,34 @@ export const SendMessage = async (
     throw new Error(err);
   }
 };
+
+export const SendMessageGroup = async (
+  whatsapp: Whatsapp,
+  messageData: MessageData
+): Promise<any> => {
+  try {
+    const wbot = await GetWhatsappWbot(whatsapp);
+    const chatId = `${messageData.number}@g.us`;
+
+    let message;
+
+    if (messageData.mediaPath) {
+      const options = await getMessageOptions(
+        messageData.body,
+        messageData.mediaPath
+      );
+      if (options) {
+        message = await wbot.sendMessage(chatId, {
+          ...options
+        });
+      }
+    } else {
+      const body = `\u200e${messageData.body}`;
+      message = await wbot.sendMessage(chatId, { text: body });
+    }
+
+    return message;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};

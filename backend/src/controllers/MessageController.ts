@@ -14,6 +14,7 @@ import DeleteWhatsAppMessage from "../services/WbotServices/DeleteWhatsAppMessag
 import SendWhatsAppMedia from "../services/WbotServices/SendWhatsAppMedia";
 import SendWhatsAppMessage from "../services/WbotServices/SendWhatsAppMessage";
 import CheckContactNumber from "../services/WbotServices/CheckNumber";
+import CheckGroup from "../services/WbotServices/CheckGroup";
 import CheckIsValidContact from "../services/WbotServices/CheckIsValidContact";
 
 import {sendFacebookMessageMedia} from "../services/FacebookServices/sendFacebookMessageMedia";
@@ -141,7 +142,7 @@ export const send = async (req: Request, res: Response): Promise<Response> => {
       throw new Error("O número é obrigatório");
     }
 
-    const numberToTest = messageData.number;
+    const numberToTest = messageData.number.replace(/\D/g, "");
     const body = messageData.body;
 
     const companyId = whatsapp.companyId;
@@ -170,6 +171,74 @@ export const send = async (req: Request, res: Response): Promise<Response> => {
 
       req.app.get("queues").messageQueue.add(
         "SendMessage",
+        {
+          whatsappId,
+          data: {
+            number,
+            body
+          }
+        },
+
+        { removeOnComplete: false, attempts: 3 }
+
+      );
+    }
+
+    return res.send({ mensagem: "Mensagem enviada" });
+  } catch (err: any) {
+    if (Object.keys(err).length === 0) {
+      throw new AppError(
+        "Não foi possível enviar a mensagem, tente novamente em alguns instantes"
+      );
+    } else {
+      throw new AppError(err.message);
+    }
+  }
+};
+
+export const sendGroup = async (req: Request, res: Response): Promise<Response> => {
+  const { whatsappId } = req.params as unknown as { whatsappId: number };
+  const messageData: MessageData = req.body;
+  const medias = req.files as Express.Multer.File[];
+
+  try {
+    const whatsapp = await Whatsapp.findByPk(whatsappId);
+
+    if (!whatsapp) {
+      throw new Error("Não foi possível realizar a operação");
+    }
+
+    if (messageData.number === undefined) {
+      throw new Error("O número é obrigatório");
+    }
+
+    const numberToTest = messageData.number;
+    const body = messageData.body;
+
+    await CheckGroup(numberToTest);
+    const number = `${numberToTest}`;
+
+    if (medias) {
+      await Promise.all(
+        medias.map(async (media: Express.Multer.File) => {
+          await req.app.get("queues").messageQueue.add(
+            "SendMessageGroup",
+            {
+              whatsappId,
+              data: {
+                number,
+                body: media.originalname,
+                mediaPath: media.path
+              }
+            },
+            { removeOnComplete: true, attempts: 3 }
+          );
+        })
+      );
+    } else {
+
+      req.app.get("queues").messageQueue.add(
+        "SendMessageGroup",
         {
           whatsappId,
           data: {

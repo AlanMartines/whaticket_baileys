@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import Queue, { Job } from "bull";
-import { MessageData, SendMessage } from "./helpers/SendMessage";
+import { MessageData, SendMessage, SendMessageGroup } from "./helpers/SendMessage";
 import Whatsapp from "./models/Whatsapp";
 import { logger } from "./utils/logger";
 import moment from "moment";
@@ -91,6 +91,27 @@ async function handleSendMessage(job) {
     throw e;
   }
 }
+
+async function handleSendMessageGroup(job) {
+  try {
+    const { data } = job;
+
+    const whatsapp = await Whatsapp.findByPk(data.whatsappId);
+
+    if (whatsapp == null) {
+      throw Error("Whatsapp não identificado");
+    }
+
+    const messageData: MessageData = data.data;
+
+    await SendMessageGroup(whatsapp, messageData);
+  } catch (e: any) {
+    Sentry.captureException(e);
+    logger.error("MessageQueue -> SendMessageGroup: error", e.message);
+    throw e;
+  }
+}
+
 
 async function handleVerifySchedules(job) {
   try {
@@ -682,6 +703,8 @@ export async function startQueueProcess() {
   logger.info("Iniciando processamento de filas");
 
   messageQueue.process("SendMessage", handleSendMessage);
+
+	messageQueue.process("SendMessageGroup", handleSendMessageGroup);
 
   scheduleMonitor.process("Verify", handleVerifySchedules);
 
