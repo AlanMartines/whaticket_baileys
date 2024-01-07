@@ -221,17 +221,6 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 									</Grid>
 								</div>
 								<div>
-									<Field
-										as={TextField}
-										label={i18n.t("whatsappModal.form.whatsnotify")}
-										fullWidth
-										name="whatsNotify"
-										variant="outlined"
-										margin="dense"
-										className={classes.textField}
-									/>
-								</div>
-								<div>
 									<Grid item>
 										<Field
 											as={TextField}
