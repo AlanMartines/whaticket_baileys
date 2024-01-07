@@ -380,7 +380,7 @@ const Groups = () => {
         whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
       />
       <MainHeader>
-        <Title>{i18n.t("mainDrawer.listItems.groups")}</Title>
+        <Title>{i18n.t("groups.title")}</Title>
         <MainHeaderButtonsWrapper>
           <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
@@ -390,7 +390,7 @@ const Groups = () => {
                   color="primary"
                   {...bindTrigger(popupState)}
                 >
-                 Adicionar Conexão
+                 {i18n.t("groups.buttons.add")}
                 </Button>
                 <Menu {...bindMenu(popupState)}>
                   <MenuItem
