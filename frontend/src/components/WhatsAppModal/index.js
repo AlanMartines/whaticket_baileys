@@ -92,9 +92,7 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 		wh_message: true,
 		wh_qrcode: true,
 		wh_connect: true,
-		wh_status: true,
-		sendmass: false,
-		whatsNotify: "",
+		wh_status: true
 	};
 	const [whatsApp, setWhatsApp] = useState(initialState);
 	const [selectedQueueIds, setSelectedQueueIds] = useState([]);
@@ -219,19 +217,6 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 												className={classes.textFieldTime}
 											/>
 
-										</Grid>
-										<Grid item>
-											<FormControlLabel
-												control={
-													<Field
-														as={Switch}
-														color="primary"
-														name="sendmass"
-														checked={values.sendmass}
-													/>
-												}
-												label={i18n.t("whatsappModal.form.sendmass")}
-											/>
 										</Grid>
 									</Grid>
 								</div>
