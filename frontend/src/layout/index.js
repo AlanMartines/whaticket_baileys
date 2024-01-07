@@ -29,10 +29,10 @@ import { i18n } from "../translate/i18n";
 import toastError from "../errors/toastError";
 import AnnouncementsPopover from "../components/AnnouncementsPopover";
 
-import logo from "../assets/logoPainelOption.png"; 
 import { socketConnection } from "../services/socket";
 import ChatPopover from "../pages/Chat/ChatPopover";
-
+import logoDefault from "../assets/logo_Connectzap.png";
+const logo = process.env.REACT_APP_LOGO || logoDefault;
 const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
@@ -45,8 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
+		paddingRight: 24, // keep right padding when drawer closed
+		color: "white",
+		background: process.env.REACT_APP_COLOR_TOOLBAR || "#128C7E"
+		},
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
@@ -112,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
