@@ -27,7 +27,7 @@ const server = app.listen(process.env.PORT, async () => {
 cron.schedule("*/1 * * * *", async () => {
 
   try {
-    console.log("Running a job at 01:00 at America/Sao_Paulo timezone")
+    logger.info(`Running a job at 01:00 at America/Sao_Paulo timezone`);
     await ClosedAllOpenTickets();
     await ClosedAllNPSTickets()
   }
