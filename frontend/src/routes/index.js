@@ -11,6 +11,7 @@ import Connections from "../pages/Connections/";
 import SettingsCustom from "../pages/SettingsCustom/";
 import Financeiro from "../pages/Financeiro/";
 import Users from "../pages/Users";
+import Settings from "../pages/Settings";
 import Contacts from "../pages/Contacts/";
 import Queues from "../pages/Queues/";
 import Tags from "../pages/Tags/";
@@ -82,6 +83,7 @@ const Routes = () => {
                 <Route exact path="/contacts" component={Contacts} isPrivate />
                 <Route exact path="/helps" component={Helps} isPrivate />
                 <Route exact path="/users" component={Users} isPrivate />
+                <Route exact path="/createaccount" component={Settings} isPrivate />
                 <Route
                   exact
                   path="/messages-api"
