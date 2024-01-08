@@ -51,7 +51,7 @@ import Title from "../../components/Title";
 import TableRowSkeleton from "../../components/TableRowSkeleton";
 
 import api from "../../services/api";
-import WhatsAppModal from "../../components/WhatsAppModal";
+import GroupsModal from "../../components/GroupsModal";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import QrcodeModal from "../../components/QrcodeModal";
 import { i18n } from "../../translate/i18n";
@@ -374,7 +374,7 @@ const Groups = () => {
         onClose={handleCloseQrModal}
         whatsAppId={!whatsAppModalOpen && selectedWhatsApp?.id}
       />
-      <WhatsAppModal
+      <GroupsModal
         open={whatsAppModalOpen}
         onClose={handleCloseWhatsAppModal}
         whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
