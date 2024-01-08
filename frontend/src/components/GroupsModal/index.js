@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
+import useAuth from "../../hooks/useAuth.js";
 
 import {
 	Dialog,
@@ -74,6 +75,7 @@ const handleGerarChaveAlfanumerica = (tamanho) => {
 
 const GroupsModal = ({ open, onClose, whatsAppId }) => {
 	const classes = useStyles();
+	const history = useHistory();
 	const initialState = {
 		name: "",
 		greetingMessage: "",
@@ -93,14 +95,25 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 		wh_status: true
 	};
 	const [whatsApp, setWhatsApp] = useState(initialState);
+	const [selectedQueueIds, setSelectedQueueIds] = useState([]);
+	const [currentUser, setCurrentUser] = useState({});
+
+	const { getCurrentUserInfo } = useAuth();
 
 	useEffect(() => {
 		const fetchSession = async () => {
 			if (!whatsAppId) return;
 
+			const user = await getCurrentUserInfo();
+			setCurrentUser(user);
+			const isSuper = user.super;
+
 			try {
 				const { data } = await api.get(`/whatsapp/${whatsAppId}?session=0`);
 				setWhatsApp(data);
+
+				const whatsQueueIds = data.queues?.map((queue) => queue.id);
+				setSelectedQueueIds(whatsQueueIds);
 			} catch (err) {
 				toastError(err);
 			}
@@ -109,7 +122,9 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 	}, [whatsAppId]);
 
 	const handleSaveWhatsApp = async (values) => {
-		const whatsappData = { values };
+		const whatsappData = { ...values, queueIds: selectedQueueIds };
+		delete whatsappData["queues"];
+		delete whatsappData["session"];
 
 		try {
 			if (whatsAppId) {
@@ -126,8 +141,13 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 
 	const handleClose = () => {
 		onClose();
+		//history.push("/connections");
 		setWhatsApp(initialState);
 	};
+
+  const isSuper = () => {
+    return currentUser.super;
+  };
 
 	return (
 		<div className={classes.root}>
@@ -368,6 +388,10 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 										style={{ /* backgroundColor: isSuper() ? "#FFFFFF" : "#A9A9A9", */ }}
 									/>
 								</div>
+								<QueueSelect
+									selectedQueueIds={selectedQueueIds}
+									onChange={(selectedIds) => setSelectedQueueIds(selectedIds)}
+								/>
 							</DialogContent>
 							<DialogActions>
 								<Button
