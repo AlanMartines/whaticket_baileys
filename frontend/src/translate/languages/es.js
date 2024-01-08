@@ -400,8 +400,7 @@ const messages = {
 			},
 			messagesInput: {
 				placeholderOpen: "Escribe un mensaje",
-				placeholderClosed:
-					"Vuelva a abrir o acepte este ticket para enviar un mensaje.",
+				placeholderClosed: "Vuelva a abrir o acepte este ticket para enviar un mensaje.",
 				signMessage: "Firmar",
 			},
 			contactDrawer: {
