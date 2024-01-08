@@ -73,7 +73,7 @@ const handleGerarChaveAlfanumerica = (tamanho) => {
 	return resultado;
 }
 
-const GroupsModal = ({ open, onClose, whatsAppId }) => {
+const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const initialState = {
@@ -132,7 +132,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 			} else {
 				await api.post("/whatsapp", whatsappData);
 			}
-			toast.success(i18n.t("GroupsModal.success"));
+			toast.success(i18n.t("whatsappModal.success"));
 			handleClose();
 		} catch (err) {
 			toastError(err);
@@ -159,7 +159,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 				scroll="paper"
 			>
 				<DialogTitle>
-					{whatsAppId ? i18n.t("GroupsModal.title.edit") : i18n.t("GroupsModal.title.add")}
+					{whatsAppId ? i18n.t("whatsappModal.title.edit") : i18n.t("whatsappModal.title.add")}
 				</DialogTitle>
 				<Formik
 					initialValues={whatsApp}
@@ -180,7 +180,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 										<Grid item>
 											<Field
 												as={TextField}
-												label={i18n.t("GroupsModal.form.name")}
+												label={i18n.t("whatsappModal.form.name")}
 												autoFocus
 												name="name"
 												error={touched.name && Boolean(errors.name)}
@@ -201,7 +201,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 														checked={values.isDefault}
 													/>
 												}
-												label={i18n.t("GroupsModal.form.default")}
+												label={i18n.t("whatsappModal.form.default")}
 											/>
 										</Grid>
 
@@ -224,7 +224,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 									<Grid item>
 										<Field
 											as={TextField}
-											label={i18n.t("GroupsModal.form.webhook_cli")}
+											label={i18n.t("whatsappModal.form.webhook_cli")}
 											autoFocus
 											name="webhook_cli"
 											fullWidth
@@ -239,7 +239,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 								</div>
 								<div>
 									<Typography color="primary" className={classes.elementMargin}>
-										{i18n.t("GroupsModal.form.wh_info")}
+										{i18n.t("whatsappModal.form.wh_info")}
 									</Typography>
 								</div>
 								<div className={classes.multFieldLine}>
@@ -253,7 +253,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 													checked={values.wh_message}
 												/>
 											}
-											label={i18n.t("GroupsModal.form.wh_message")}
+											label={i18n.t("whatsappModal.form.wh_message")}
 										/>
 									</Grid>
 
@@ -267,7 +267,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 													checked={values.wh_qrcode}
 												/>
 											}
-											label={i18n.t("GroupsModal.form.wh_qrcode")}
+											label={i18n.t("whatsappModal.form.wh_qrcode")}
 										/>
 									</Grid>
 
@@ -281,7 +281,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 													checked={values.wh_connect}
 												/>
 											}
-											label={i18n.t("GroupsModal.form.wh_connect")}
+											label={i18n.t("whatsappModal.form.wh_connect")}
 										/>
 									</Grid>
 
@@ -295,7 +295,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 													checked={values.wh_status}
 												/>
 											}
-											label={i18n.t("GroupsModal.form.wh_status")}
+											label={i18n.t("whatsappModal.form.wh_status")}
 										/>
 									</Grid>
 								</div>
@@ -378,7 +378,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 								<div>
 									<Field
 										as={TextField}
-										label={i18n.t("GroupsModal.form.token")}
+										label={i18n.t("whatsappModal.form.token")}
 										fullWidth
 										name="token"
 										variant="outlined"
@@ -400,7 +400,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 									disabled={isSubmitting}
 									variant="outlined"
 								>
-									{i18n.t("GroupsModal.buttons.cancel")}
+									{i18n.t("whatsappModal.buttons.cancel")}
 								</Button>
 								<Button
 									type="submit"
@@ -409,7 +409,7 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 									variant="contained"
 									className={classes.btnWrapper}
 								>
-									{whatsAppId ? i18n.t("GroupsModal.buttons.okEdit") : i18n.t("GroupsModal.buttons.okAdd")}
+									{whatsAppId ? i18n.t("whatsappModal.buttons.okEdit") : i18n.t("whatsappModal.buttons.okAdd")}
 									{isSubmitting && (
 										<CircularProgress
 											size={24}
@@ -426,4 +426,4 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 	);
 };
 
-export default React.memo(GroupsModal);
+export default React.memo(WhatsAppModal);
