@@ -156,6 +156,31 @@ const messages = {
 				},
 				success: "WhatsApp salvo com sucesso.",
 			},
+			GroupsModal: {
+				title: {
+					add: "Adicionar WhatsApp",
+					edit: "Editar WhatsApp",
+				},
+				form: {
+					name: "Nome",
+					default: "Padrão",
+					sendmass: "Envio em massa",
+					webhook_cli: "Webhook",
+					wh_message: "Mensagem",
+					wh_qrcode: "QRCode",
+					wh_connect: "Connect",
+					wh_status: "Status",
+					wh_info: "Nota: Marque o(s) evento(s) que deseja receber uma requisição de tipo POST.",
+					whatsnotify: "WhatsApp de Notificação + DDI",
+					token: "Token",
+				},
+				buttons: {
+					okAdd: "Adicionar",
+					okEdit: "Salvar",
+					cancel: "Cancelar",
+				},
+				success: "WhatsApp salvo com sucesso.",
+			},
 			qrCode: {
 				message: "Leia o QrCode para iniciar a sessão",
 			},
@@ -719,6 +744,7 @@ const messages = {
 				},
 				confirmationModal: {
 					title: "Deletar o ticket do contato",
+					titleFrom: "do contato ",
 					message: "Atenção! Todas as mensagens relacionadas ao ticket serão perdidas.",
 				},
 				buttons: {
