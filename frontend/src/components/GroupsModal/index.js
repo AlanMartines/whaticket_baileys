@@ -96,17 +96,10 @@ const GroupsModal = ({ open, onClose, whatsAppId }) => {
 	};
 	const [whatsApp, setWhatsApp] = useState(initialState);
 	const [selectedQueueIds, setSelectedQueueIds] = useState([]);
-	const [currentUser, setCurrentUser] = useState({});
-
-	const { getCurrentUserInfo } = useAuth();
 
 	useEffect(() => {
 		const fetchSession = async () => {
 			if (!whatsAppId) return;
-
-			const user = await getCurrentUserInfo();
-			setCurrentUser(user);
-			const isSuper = user.super;
 
 			try {
 				const { data } = await api.get(`/whatsapp/${whatsAppId}?session=0`);
