@@ -144,31 +144,6 @@ const messages = {
 				},
 				success: "WhatsApp guardado satisfactoriamente.",
 			},
-			GroupsModal: {
-				title: {
-					add: "Agrega WhatsApp",
-					edit: "Edita WhatsApp",
-				},
-				form: {
-					name: "Nombre",
-					default: "Por Defecto",
-					sendmass: "Envío masivo",
-					webhook_cli: "Webhook",
-					wh_message: "Mensagem",
-					wh_qrcode: "QRCode",
-					wh_connect: "Connect",
-					wh_status: "Status",
-					wh_info: "Nota: Marque el/los evento(s) que desea recibir una solicitud de tipo POST.",
-					whatsnotify: "WhatsApp de notificación + DDI",
-					token: "Token",
-				},
-				buttons: {
-					okAdd: "Agregar",
-					okEdit: "Guardar",
-					cancel: "Cancelar",
-				},
-				success: "WhatsApp guardado satisfactoriamente.",
-			},
 			qrCode: {
 				message: "Lée el código QR para empezar la sesión.",
 			},
