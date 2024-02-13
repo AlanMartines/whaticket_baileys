@@ -38,7 +38,7 @@ import InputMask from 'react-input-mask';
 const copyright = process.env.REACT_APP_COPYRIGHT || "";
 const copyrightYear = process.env.REACT_APP_COPYRIGHT_YEAR || "0000";
 const copyrightUrl = process.env.REACT_APP_COPYRIGHT_URL || "";
-const trialExpiration = process.env.REACT_APP_TRIALEXPIRATION || 3;
+const trialExpiration = process.env.REACT_APP_TRIALEXPIRATION || 5;
 const planIdDefault = process.env.REACT_APP_PLANIDDEFAULT || "";
 
 const Copyright = () => {
